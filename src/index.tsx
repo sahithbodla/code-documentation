@@ -1,6 +1,6 @@
 import * as esbuild from 'esbuild-wasm';
 import { useState, useEffect, useRef } from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import { unpkgPathPlugin } from './plugins/unpkg-path-plugin';
 
 const App = () => {
@@ -28,6 +28,10 @@ const App = () => {
       bundle: true,
       write: false,
       plugins: [unpkgPathPlugin()],
+      define: {
+        'process.env.NODE_ENV': '"production"',
+        global: 'window',
+      },
     });
 
     // console.log('Sahith', result);
@@ -48,5 +52,7 @@ const App = () => {
     </div>
   );
 };
-
-ReactDOM.render(<App />, document.querySelector('#root'));
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+root.render(<App />);
