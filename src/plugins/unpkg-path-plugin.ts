@@ -29,8 +29,8 @@ export const unpkgPathPlugin = () => {
           return {
             loader: 'jsx',
             contents: `
-              const message = require('nested-test-pkg');
-              console.log(message);
+              import React from 'react@16.0.0';
+              console.log(React);
             `,
           };
         }
