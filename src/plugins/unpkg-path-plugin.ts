@@ -6,13 +6,6 @@ const fileCache = localForage.createInstance({
   name: 'filecache',
 });
 
-(async () => {
-  await fileCache.setItem('color', 'red');
-
-  const color = await fileCache.getItem('color');
-  console.log(color);
-})();
-
 export const unpkgPathPlugin = () => {
   return {
     name: 'unpkg-path-plugin',
@@ -47,13 +40,28 @@ export const unpkgPathPlugin = () => {
           };
         }
 
+        // check to see if we have already fetched this file and if it is in cache
+        const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(
+          args.path
+        );
+
+        // if it is return immediately
+        if (cachedResult) {
+          return cachedResult;
+        }
+
         const { data, request } = await axios.get(args.path);
-        console.log('request', request);
-        return {
+
+        const result: esbuild.OnLoadResult = {
           loader: 'jsx',
           contents: data,
           resolveDir: new URL('./', request.responseURL).pathname,
         };
+
+        // store response in Cache
+        await fileCache.setItem(args.path, result);
+
+        return result;
       });
     },
   };
