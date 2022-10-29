@@ -36,10 +36,14 @@ const App = () => {
       },
     });
 
-    // console.log('Sahith', result);
-
     setCode(result.outputFiles[0].text);
   };
+
+  const html = `
+    <script>
+     ${code}
+    </script>
+  `;
 
   return (
     <div>
@@ -51,9 +55,15 @@ const App = () => {
         <button onClick={onClick}>Submit</button>
       </div>
       <pre>{code}</pre>
+      <iframe srcDoc={html} sandbox="allow-scripts" />
     </div>
   );
 };
+
+const html = `
+<h1>Local HTML doc</h1>
+`;
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
