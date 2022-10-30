@@ -48,3 +48,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 ## To Install Monaco Editor:
 
 npm i --save-exact @monaco-editor/react@3.7.5 --legacy-peer-deps
+
+## monaco-editor
+
+This package is installed just to check the type definitions
