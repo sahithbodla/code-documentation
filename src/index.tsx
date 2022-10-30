@@ -25,6 +25,9 @@ const App = () => {
     if (!ref.current) {
       return;
     }
+    // Is users accidentally deletes the div of id root to render react application, below
+    // code ensure to reload the iframe contents completely for the next execution
+    iframe.current.srcdoc = html;
     const result = await ref.current.build({
       entryPoints: ['index.js'],
       bundle: true,
@@ -45,6 +48,7 @@ const App = () => {
     <html>
       <head></head>
       <body>
+        <!-- This is for rendering users react application -->
         <div id="root"></div>
         <script>
           window.addEventListener(
