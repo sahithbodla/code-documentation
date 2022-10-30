@@ -70,9 +70,12 @@ const App = () => {
     </html>
   `;
 
+  const initialValue = `// please type in some JavaScript to see the magic
+const a = 1;`;
+
   return (
     <div>
-      <CodeEditor />
+      <CodeEditor initialValue={initialValue} />
       <textarea
         value={input}
         onChange={(e) => setInput(e.target.value)}
