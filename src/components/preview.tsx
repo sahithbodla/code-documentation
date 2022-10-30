@@ -39,7 +39,9 @@ const Preview: React.FC<PreviewProps> = ({ code }) => {
     // Is users accidentally deletes the div of id root to render react application, below
     // code ensure to reload the iframe contents completely for the next execution
     iframe.current.srcdoc = html;
-    iframe.current.contentWindow.postMessage(code, '*');
+    setTimeout(() => {
+      iframe.current.contentWindow.postMessage(code, '*');
+    }, 50);
   }, [code]);
   return (
     <div className="preview-wrapper">

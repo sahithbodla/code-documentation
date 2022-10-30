@@ -6,7 +6,7 @@ import bundle from '../bundler';
 import * as constants from '../constants';
 
 const CodeCell = () => {
-  const [input, setInput] = useState('input');
+  const [input, setInput] = useState('');
   const [code, setCode] = useState('');
 
   useEffect(() => {
