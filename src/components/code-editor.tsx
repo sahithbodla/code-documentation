@@ -1,8 +1,11 @@
 import { useRef } from 'react';
 import './code-editor.css';
+import './syntax.css';
 import MonacoEditor, { EditorDidMount } from '@monaco-editor/react';
 import prettier from 'prettier';
 import parser from 'prettier/parser-babel';
+import codeShift from 'jscodeshift';
+import Highlighter from 'monaco-jsx-highlighter';
 
 interface CodeEditorProps {
   initialValue: string;
@@ -18,6 +21,21 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
       onChange(getValue());
     });
     monacoEditor.getModel()?.updateOptions({ tabSize: 2 });
+
+    const highlighter = new Highlighter(
+      // monaco editor will add monaco property to window object after running the editor
+      // @ts-ignore - this is to remove types error as window dont know monaco as of now
+      window.monaco,
+      codeShift,
+      monacoEditor
+    );
+    highlighter.highLightOnDidChangeModelContent(
+      // to remove the nasty console logs for supposed suntax errors
+      () => {},
+      () => {},
+      undefined,
+      () => {}
+    );
   };
 
   const onFormatClick = () => {
