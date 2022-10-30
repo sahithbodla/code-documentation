@@ -6,7 +6,16 @@ const CodeEditor = () => {
       theme="dark"
       language="javascript"
       height="500px"
-      options={{ wordWrap: 'on' }}
+      options={{
+        wordWrap: 'on',
+        showUnused: false,
+        minimap: { enabled: false },
+        folding: false,
+        lineNumbersMinChars: 3,
+        fontSize: 16,
+        scrollBeyondLastLine: false,
+        automaticLayout: true,
+      }}
     />
   );
 };
