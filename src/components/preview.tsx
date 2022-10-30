@@ -7,7 +7,9 @@ interface PreviewProps {
 
 const html = `
     <html>
-      <head></head>
+      <head>
+        <style>html { background-color: white; }</style>
+      </head>
       <body>
         <!-- This is for rendering users react application -->
         <div id="root"></div>
