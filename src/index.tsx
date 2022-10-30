@@ -6,6 +6,7 @@ import { fetchPlugin } from './plugins/fetch-plugin';
 
 const App = () => {
   const ref = useRef<any>();
+  const iframe = useRef<any>();
   const [input, setInput] = useState('input');
   const [code, setCode] = useState('');
 
@@ -36,13 +37,26 @@ const App = () => {
       },
     });
 
-    setCode(result.outputFiles[0].text);
+    // setCode(result.outputFiles[0].text);
+    iframe.current.contentWindow.postMessage(result.outputFiles[0].text, '*');
   };
 
   const html = `
-    <script>
-     ${code}
-    </script>
+    <html>
+      <head></head>
+      <body>
+        <div class="root"></div>
+        <script>
+          window.addEventListener(
+            'message',
+            (event) => {
+              eval(event.data);
+            },
+            false
+          );
+        </script>
+      </body>
+    </html>
   `;
 
   return (
@@ -55,14 +69,10 @@ const App = () => {
         <button onClick={onClick}>Submit</button>
       </div>
       <pre>{code}</pre>
-      <iframe srcDoc={html} sandbox="allow-scripts" />
+      <iframe ref={iframe} srcDoc={html} sandbox="allow-scripts allow-modals" />
     </div>
   );
 };
-
-const html = `
-<h1>Local HTML doc</h1>
-`;
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
