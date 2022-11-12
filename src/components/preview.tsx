@@ -3,6 +3,7 @@ import './preview.css';
 
 interface PreviewProps {
   code: string;
+  error: string;
 }
 
 const html = `
@@ -14,17 +15,23 @@ const html = `
         <!-- This is for rendering users react application -->
         <div id="root"></div>
         <script>
+          const handleError = (err) => {
+            const root = document.querySelector('#root');
+            root.innerHTML = '<div style="color: red;"> <h4>Runtime Error:</h4>' + err + '</div>';
+            console.error(err);
+          };
+          window.addEventListener('error', (event) => {
+            event.preventDefault();
+            handleError(event.error);
+          })
           window.addEventListener(
             'message',
             (event) => {
               try { 
                 eval(event.data);
                } catch(err) {
-                const root = document.querySelector('#root');
-                root.innerHTML = '<div style="color: red;"> <h4>Runtime Error:</h4>' + err + '</div>';
-                console.error(err);
-               }
-              
+                handleError(err);
+               } 
             },
             false
           );
@@ -33,7 +40,7 @@ const html = `
     </html>
   `;
 
-const Preview: React.FC<PreviewProps> = ({ code }) => {
+const Preview: React.FC<PreviewProps> = ({ code, error }) => {
   const iframe = useRef<any>();
   useEffect(() => {
     // Is users accidentally deletes the div of id root to render react application, below
@@ -51,6 +58,7 @@ const Preview: React.FC<PreviewProps> = ({ code }) => {
         srcDoc={html}
         sandbox="allow-scripts allow-modals"
       />
+      {error && <div className="preview-error">{error}</div>}
     </div>
   );
 };
