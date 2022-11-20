@@ -61,7 +61,8 @@ const reducer = produce(
       default:
         return state;
     }
-  }
+  },
+  initialState
 );
 
 const randomId = () => {
