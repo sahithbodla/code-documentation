@@ -33,7 +33,7 @@ const reducer = produce(
       case ActionType.MOVE_CELL:
         const { id: cellId, direction } = action.payload;
         const index = state.order.findIndex((id) => {
-          id === cellId;
+          return id === cellId;
         });
         const targetIndex = direction === 'up' ? index - 1 : index + 1;
         if (targetIndex < 0 || targetIndex > state.order.length - 1) {
@@ -55,8 +55,7 @@ const reducer = produce(
         );
         if (foundIndex === -1) {
           state.order.push(cell.id);
-        }
-        state.order.splice(foundIndex, 0, cell.id);
+        } else state.order.splice(foundIndex, 0, cell.id);
         return state;
 
       default:
