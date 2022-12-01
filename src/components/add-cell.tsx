@@ -4,12 +4,16 @@ import { useActions } from '../hooks';
 
 interface AddCellProps {
   nextCellId: string | null;
+  forceVisible?: boolean;
 }
 
-const AddCell: React.FC<AddCellProps> = ({ nextCellId }) => {
+const AddCell: React.FC<AddCellProps> = ({
+  nextCellId,
+  forceVisible = false,
+}) => {
   const { insertCellBefore } = useActions();
   return (
-    <div className="add-cell">
+    <div className={`add-cell ${forceVisible && 'force-visible'}`}>
       <div className="add-buttons">
         <button
           className="button is-rounded is-primary is-small"
