@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTypedSelector } from '../hooks/used-typed-selector';
+import { useTypedSelector } from '../hooks';
 import CellListItem from './cell-list-item';
 
 const CellList: React.FC = () => {
