@@ -7,7 +7,7 @@ interface ActionBarProps {
 }
 
 const ActionBar: React.FC<ActionBarProps> = ({ id }) => {
-  const { deleteCell, moveCell } = useActions();
+  const { deleteCell, moveCell, deleteBundle } = useActions();
   return (
     <div className="action-bar">
       <button
@@ -28,7 +28,10 @@ const ActionBar: React.FC<ActionBarProps> = ({ id }) => {
       </button>
       <button
         className="button is-primary is-small"
-        onClick={() => deleteCell(id)}
+        onClick={() => {
+          deleteCell(id);
+          deleteBundle(id);
+        }}
       >
         <span className="icon">
           <i className="fas fa-times"></i>

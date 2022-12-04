@@ -7,6 +7,7 @@ import {
   MoveCellAction,
   UpdateCellAction,
   Action,
+  DeleteBundle,
 } from '../actions';
 import { CellTypes } from '../cell';
 import bundle from '../../bundler';
@@ -71,5 +72,12 @@ export const createBundle = (cellId: string, input: string) => {
         },
       },
     });
+  };
+};
+
+export const deleteBundle = (payload: string): DeleteBundle => {
+  return {
+    type: ActionType.DELETE_BUNDLE,
+    payload,
   };
 };

@@ -49,10 +49,16 @@ export interface BundleCompleteAction {
   };
 }
 
+export interface DeleteBundle {
+  type: ActionType.DELETE_BUNDLE;
+  payload: string;
+}
+
 export type Action =
   | MoveCellAction
   | DeleteCellAction
   | InsertCellAfterCellAction
   | UpdateCellAction
   | BundleStartAction
+  | DeleteBundle
   | BundleCompleteAction;

@@ -31,6 +31,9 @@ const reducer = produce(
           err: action.payload.bundle.err,
         };
         return state;
+      case ActionType.DELETE_BUNDLE:
+        delete state[action.payload];
+        return state;
       default:
         return state;
     }

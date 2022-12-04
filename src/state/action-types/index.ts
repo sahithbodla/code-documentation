@@ -5,4 +5,5 @@ export enum ActionType {
   UPDATE_CELL = 'update_cell',
   BUNDLE_START = 'buldle_start',
   BUNDLE_COMPLETE = 'bundle_complete',
+  DELETE_BUNDLE = 'delete_bundle',
 }
