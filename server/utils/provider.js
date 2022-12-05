@@ -35,6 +35,7 @@ export const connectPassport = () => {
   });
 
   passport.deserializeUser(async (id, done) => {
-    done(null, id);
+    const user = await User.findById(id);
+    done(null, user);
   });
 };
