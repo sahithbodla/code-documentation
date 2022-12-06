@@ -16,7 +16,7 @@ export const createDocument = asyncErrorHandler(async (req, res, next) => {
 
   res.status(201).json({
     success: true,
-    message: 'Document created successfully',
+    message: 'document created successfully',
   });
 });
 
@@ -39,7 +39,7 @@ export const editDocument = asyncErrorHandler(async (req, res, next) => {
       success: true,
       cellId: cell.id,
       documentId: req.params.id,
-      message: `New cell has been added to given document successfully`,
+      message: `new cell has been added to given document successfully`,
     });
   } else {
     res.status(409).json({
@@ -82,11 +82,12 @@ export const getAllDocsByOwner = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
-// @delete  delete a particular cell for given document ID
+// @delete - delete a particular cell for given document ID
 export const deleteCellInDocument = asyncErrorHandler(
   async (req, res, next) => {
     const { cellId } = req.body;
     const { docData } = await Document.findOne({ docId: req.params.id });
+    console.log(docData.data);
     const data = docData.data;
     data.delete(cellId);
 
@@ -97,7 +98,52 @@ export const deleteCellInDocument = asyncErrorHandler(
 
     res.status(201).json({
       success: true,
-      message: `Cell deleted successfully from ${req.params.id}`,
+      message: `cell deleted successfully from ${req.params.id}`,
+    });
+  }
+);
+
+// @patch - edit order array for given document Id
+export const setOrderInDocument = asyncErrorHandler(async (req, res, next) => {
+  const { order } = req.body;
+  await Document.updateOne(
+    { docId: req.params.id },
+    { $set: { 'docData.order': order } }
+  );
+
+  res.status(201).json({
+    success: true,
+    order,
+    documentId: req.params.id,
+    message: 'order has been updated for the document successfully',
+  });
+});
+
+// @patch - edit cells for given document ID
+export const setCellsContentInDocument = asyncErrorHandler(
+  async (req, res, next) => {
+    const { cells } = req.body;
+    const { docData } = await Document.findOne({ docId: req.params.id });
+    const map = docData.data;
+    cells.forEach((cell) => {
+      const { cellId, content } = cell;
+      const cellObj = map.get(cellId);
+      map.set(cellId, {
+        content: content,
+        type: cellObj.type,
+        id: cellId,
+      });
+    });
+    await Document.updateOne(
+      { docId: req.params.id },
+      { $set: { 'docData.data': map } }
+    );
+
+    res.status(201).json({
+      success: true,
+      cells: cells.map((cell) => cell.cellId),
+      documentId: req.params.id,
+      message: 'cells has been updated for the document successfully',
     });
   }
 );
