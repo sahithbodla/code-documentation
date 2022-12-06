@@ -1,6 +1,7 @@
 import { Document } from '../models/document.js';
 import { asyncErrorHandler } from '../middlewares/errorMiddleware.js';
 
+// @post - creating a new document in DB
 export const createDocument = asyncErrorHandler(async (req, res, next) => {
   const { docName, docData } = req.body;
   const user = 'req.user._id';
@@ -19,23 +20,38 @@ export const createDocument = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
+// @patch - adding a new cell (with empty content) for given document
 export const editDocument = asyncErrorHandler(async (req, res, next) => {
-  const { cell } = req.body;
+  const cell = req.body;
   const { docData } = await Document.findOne({ docId: req.params.id });
   const data = docData.data;
-  data.set(cell.id, cell);
 
-  await Document.updateOne(
-    { docId: req.params.id },
-    { $set: { 'docData.data': data } }
-  );
+  if (!data.get(cell.id)) {
+    cell.content = '';
+    data.set(cell.id, cell);
 
-  res.status(201).json({
-    success: true,
-    message: `Cell added successfully to ${req.params.id}`,
-  });
+    await Document.updateOne(
+      { docId: req.params.id },
+      { $set: { 'docData.data': data } }
+    );
+
+    res.status(201).json({
+      success: true,
+      cellId: cell.id,
+      documentId: req.params.id,
+      message: `New cell has been added to given document successfully`,
+    });
+  } else {
+    res.status(409).json({
+      success: false,
+      cellId: cell.id,
+      documentId: req.params.id,
+      message: `given cell id already exists for given document`,
+    });
+  }
 });
 
+// @get - get document data for given document ID
 export const getDocument = asyncErrorHandler(async (req, res, next) => {
   const document = await Document.findOne({ docId: req.params.id });
 
@@ -50,6 +66,7 @@ export const getDocument = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
+// @get - get all documents lists for a given user
 export const getAllDocsByOwner = asyncErrorHandler(async (req, res, next) => {
   const documents = await Document.find({ docOwner: req.params.id });
   const docsInfo = documents.map((doc) => {
@@ -64,3 +81,23 @@ export const getAllDocsByOwner = asyncErrorHandler(async (req, res, next) => {
     documents: docsInfo,
   });
 });
+
+// @delete  delete a particular cell for given document ID
+export const deleteCellInDocument = asyncErrorHandler(
+  async (req, res, next) => {
+    const { cellId } = req.body;
+    const { docData } = await Document.findOne({ docId: req.params.id });
+    const data = docData.data;
+    data.delete(cellId);
+
+    await Document.updateOne(
+      { docId: req.params.id },
+      { $set: { 'docData.data': data } }
+    );
+
+    res.status(201).json({
+      success: true,
+      message: `Cell deleted successfully from ${req.params.id}`,
+    });
+  }
+);

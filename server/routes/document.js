@@ -4,6 +4,7 @@ import {
   editDocument,
   getAllDocsByOwner,
   getDocument,
+  deleteCellInDocument,
 } from '../controllers/document.js';
 import { isAuthenticated } from '../middlewares/auth.js';
 
@@ -13,5 +14,5 @@ router.post('/document', createDocument);
 router.patch('/document/:id', editDocument);
 router.get('/document/:id', getDocument);
 router.get('/documents/:id', getAllDocsByOwner);
-
+router.delete('/document/:id', deleteCellInDocument);
 export default router;

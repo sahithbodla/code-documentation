@@ -25,7 +25,6 @@ const schema = new mongoose.Schema({
       of: new mongoose.Schema({
         content: {
           type: String,
-          required: true,
         },
         type: {
           type: String,
