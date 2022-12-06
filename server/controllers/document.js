@@ -49,3 +49,18 @@ export const getDocument = asyncErrorHandler(async (req, res, next) => {
     },
   });
 });
+
+export const getAllDocsByOwner = asyncErrorHandler(async (req, res, next) => {
+  const documents = await Document.find({ docOwner: req.params.id });
+  const docsInfo = documents.map((doc) => {
+    return {
+      id: doc.docId,
+      name: doc.docName,
+    };
+  });
+
+  res.status(201).json({
+    success: true,
+    documents: docsInfo,
+  });
+});
