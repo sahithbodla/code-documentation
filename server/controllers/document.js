@@ -35,3 +35,17 @@ export const editDocument = asyncErrorHandler(async (req, res, next) => {
     message: `Cell added successfully to ${req.params.id}`,
   });
 });
+
+export const getDocument = asyncErrorHandler(async (req, res, next) => {
+  const document = await Document.findOne({ docId: req.params.id });
+
+  res.status(201).json({
+    success: true,
+    document: {
+      owner: document.docOwner,
+      order: document.docData.order,
+      data: document.docData.data,
+      name: document.docName,
+    },
+  });
+});

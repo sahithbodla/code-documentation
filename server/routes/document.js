@@ -1,10 +1,15 @@
 import express from 'express';
-import { createDocument, editDocument } from '../controllers/document.js';
+import {
+  createDocument,
+  editDocument,
+  getDocument,
+} from '../controllers/document.js';
 import { isAuthenticated } from '../middlewares/auth.js';
 
 const router = express.Router();
 
-router.post('/createDocument', createDocument);
-router.patch('/editDocument/:id', editDocument);
+router.post('/document', createDocument);
+router.patch('/document/:id', editDocument);
+router.get('/document/:id', getDocument);
 
 export default router;
