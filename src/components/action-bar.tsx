@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useActions, useTypedSelector } from '../hooks';
 import { deleteCell as deleteCellInDB, setOrder } from '../api';
 import './action-bar.css';
+import { Direction } from '../state/actions';
 
 interface ActionBarProps {
   id: string;
@@ -25,11 +26,28 @@ const ActionBar: React.FC<ActionBarProps> = ({ id }) => {
       console.log('result4', result4);
     }
   };
+  const handleMoveCell = async (id: string, dir: Direction) => {
+    moveCell(id, dir);
+    let order2 = [...order];
+    if (docIdRef.current.id) {
+      const index = order2.findIndex((id2) => {
+        return id2 === id;
+      });
+      const targetIndex = dir === 'up' ? index - 1 : index + 1;
+      if (targetIndex < 0 || targetIndex > order2.length - 1) {
+        await setOrder(docIdRef.current.id, order2);
+        return;
+      }
+      order2[index] = order2[targetIndex];
+      order2[targetIndex] = id;
+      await setOrder(docIdRef.current.id, order2);
+    }
+  };
   return (
     <div className="action-bar">
       <button
         className="button is-primary is-small"
-        onClick={() => moveCell(id, 'up')}
+        onClick={() => handleMoveCell(id, 'up')}
       >
         <span className="icon">
           <i className="fas fa-arrow-up"></i>
@@ -37,7 +55,7 @@ const ActionBar: React.FC<ActionBarProps> = ({ id }) => {
       </button>
       <button
         className="button is-primary is-small"
-        onClick={() => moveCell(id, 'down')}
+        onClick={() => handleMoveCell(id, 'down')}
       >
         <span className="icon">
           <i className="fas fa-arrow-down"></i>
