@@ -58,6 +58,12 @@ const reducer = produce(
         } else state.order.splice(foundIndex + 1, 0, cell.id);
         return state;
 
+      case ActionType.LOAD_INIT_DATA:
+        const { order, data } = action.payload;
+        state.order = order;
+        state.data = data;
+        return state;
+
       default:
         return state;
     }

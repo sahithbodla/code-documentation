@@ -1,5 +1,5 @@
 import { ActionType } from '../action-types';
-import { CellTypes } from '../cell';
+import { Cell, CellTypes } from '../cell';
 
 export type Direction = 'up' | 'down';
 
@@ -32,6 +32,16 @@ export interface UpdateCellAction {
   };
 }
 
+export interface LoadInitDataAction {
+  type: ActionType.LOAD_INIT_DATA;
+  payload: {
+    order: string[];
+    data: {
+      [cell: string]: Cell;
+    };
+  };
+}
+
 export interface BundleStartAction {
   type: ActionType.BUNDLE_START;
   payload: {
@@ -61,4 +71,5 @@ export type Action =
   | UpdateCellAction
   | BundleStartAction
   | DeleteBundle
-  | BundleCompleteAction;
+  | BundleCompleteAction
+  | LoadInitDataAction;

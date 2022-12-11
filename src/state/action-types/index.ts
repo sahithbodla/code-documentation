@@ -6,4 +6,5 @@ export enum ActionType {
   BUNDLE_START = 'buldle_start',
   BUNDLE_COMPLETE = 'bundle_complete',
   DELETE_BUNDLE = 'delete_bundle',
+  LOAD_INIT_DATA = 'load_init_data',
 }

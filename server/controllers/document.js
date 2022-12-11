@@ -57,15 +57,22 @@ export const editDocument = asyncErrorHandler(async (req, res, next) => {
 export const getDocument = asyncErrorHandler(async (req, res, next) => {
   const document = await Document.findOne({ docId: req.params.id });
 
-  res.status(201).json({
-    success: true,
-    document: {
-      owner: document.docOwner,
-      order: document.docData.order,
-      data: document.docData.data,
-      name: document.docName,
-    },
-  });
+  if (document) {
+    res.status(201).json({
+      success: true,
+      document: {
+        owner: document.docOwner,
+        order: document.docData.order,
+        data: document.docData.data,
+        name: document.docName,
+      },
+    });
+  } else {
+    res.status(404).json({
+      success: false,
+      message: `Document with ${req.params.id} does not exist`,
+    });
+  }
 });
 
 // @get - get all documents lists for a given user

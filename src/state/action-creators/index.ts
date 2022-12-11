@@ -9,7 +9,7 @@ import {
   Action,
   DeleteBundle,
 } from '../actions';
-import { CellTypes } from '../cell';
+import { Cell, CellTypes } from '../cell';
 import bundle from '../../bundler';
 
 export const updateCell = (id: string, content: string): UpdateCellAction => {
@@ -48,6 +48,19 @@ export const insertCellAfter = (
     payload: {
       id,
       type: cellType,
+    },
+  };
+};
+
+export const loadInitData = (
+  order: string[],
+  data: { [cell: string]: Cell }
+) => {
+  return {
+    type: ActionType.LOAD_INIT_DATA,
+    payload: {
+      order,
+      data,
     },
   };
 };
