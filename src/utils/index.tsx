@@ -39,3 +39,21 @@ export const apiErrorCallback = (error: any) => {
 export const randomId = () => {
   return Math.random().toString(36).substr(2, 5);
 };
+
+export interface EditCells {
+  cellId: string;
+  content: string;
+}
+
+export const getChangedCells = (
+  oldData: { [cellId: string]: Cell },
+  newData: { [cellId: string]: Cell }
+): EditCells[] => {
+  let arr: EditCells[] = [];
+  Object.entries(newData).forEach((cell) => {
+    if (newData[cell[0]].content !== oldData[cell[0]].content) {
+      arr.push({ cellId: cell[0], content: newData[cell[0]].content });
+    }
+  });
+  return arr;
+};

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GetSaveNewDocumentObj, apiErrorCallback } from '../utils';
+import { GetSaveNewDocumentObj, apiErrorCallback, EditCells } from '../utils';
 
 export const saveNewDocument = async (dataObj: GetSaveNewDocumentObj) => {
   return await axios
@@ -67,6 +67,20 @@ export const addCell = async (docId: string, type: string, id: string) => {
       {
         type,
         id,
+      }
+    )
+    .then((response) => {
+      return response.data;
+    })
+    .catch(apiErrorCallback);
+};
+
+export const editCells = async (docId: string, changedCells: EditCells[]) => {
+  return await axios
+    .patch(
+      `${process.env.REACT_APP_SERVER_URI}${process.env.REACT_APP_API_VERSION}document/cells/${docId}`,
+      {
+        cells: changedCells,
       }
     )
     .then((response) => {

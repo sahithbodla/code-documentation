@@ -34,8 +34,8 @@ const AddCell: React.FC<AddCellProps> = ({
         order2 = [...order.order];
         order2.splice(foundIndex + 1, 0, cellId);
       }
-      const result6 = await addCell(docIdRef.current.id, type, cellId);
-      const result7 = await setOrder(docIdRef.current.id, order2);
+      await addCell(docIdRef.current.id, type, cellId);
+      await setOrder(docIdRef.current.id, order2);
     }
   };
 

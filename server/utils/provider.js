@@ -40,31 +40,3 @@ export const connectPassport = () => {
     done(null, user);
   });
 };
-
-export const createDocument = async () => {
-  await Document.create({
-    docId: 'vv',
-    docOwner: 'suhitha.bodla@gmail.com',
-    docName: 'Chota Impossible',
-    docData: {
-      order: ['aaa', 'bbb'],
-      data: {
-        aaa: {
-          content: 'Hello',
-          type: 'Text',
-          id: 'aaa',
-        },
-        bbb: {
-          content: 'World',
-          type: 'Cell',
-          id: 'bbb',
-        },
-      },
-    },
-  });
-};
-
-export const documentRead = async () => {
-  const a = await Document.findOne({ docId: 'mwfosatygi' });
-  console.log(a);
-};

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTypedSelector, useActions } from '../hooks';
-import { getDocument, saveNewDocument } from '../api';
-import { getNewDocumentObj } from '../utils';
+import { getDocument, saveNewDocument, editCells } from '../api';
+import { getNewDocumentObj, getChangedCells } from '../utils';
 import CellListItem from './cell-list-item';
 import AddCell from './add-cell';
 import './cell-list.css';
@@ -25,7 +25,6 @@ const CellList: React.FC = () => {
     const dummy = async () => {
       if (docIdRef.current.id) {
         const response2 = await getDocument(docIdRef.current.id);
-        console.log(response2);
         if (response2.success) {
           loadInitData(response2.document.order, response2.document.data);
         } else {
@@ -37,15 +36,21 @@ const CellList: React.FC = () => {
   }, [loadInitData]);
 
   const handleSaveDocClick = async () => {
+    console.log(docIdRef.current.id);
     if (!docIdRef.current.id) {
       const dataObj = getNewDocumentObj(docInfo.order, docInfo.data);
-      console.log('dataobj', dataObj);
       const response = await saveNewDocument(dataObj);
-      console.log('response', response);
       if (response.success) {
         navigate(`/${response.documentId}`);
       } else {
         // TODO: Handle failure reponse
+      }
+    } else {
+      const oldDocument = await getDocument(docIdRef.current.id);
+      const newData = docInfo.data;
+      const changedCells = getChangedCells(oldDocument.document.data, newData);
+      if (changedCells.length > 0) {
+        await editCells(docIdRef.current.id, changedCells);
       }
     }
   };

@@ -17,13 +17,11 @@ const ActionBar: React.FC<ActionBarProps> = ({ id }) => {
     deleteCell(id);
     deleteBundle(id);
     if (docIdRef.current.id) {
-      const result3 = await deleteCellInDB(docIdRef.current.id, id);
-      const result4 = await setOrder(
+      await deleteCellInDB(docIdRef.current.id, id);
+      await setOrder(
         docIdRef.current.id,
         order.filter((id2) => id2 !== id)
       );
-      console.log('result3', result3, typeof order);
-      console.log('result4', result4);
     }
   };
   const handleMoveCell = async (id: string, dir: Direction) => {

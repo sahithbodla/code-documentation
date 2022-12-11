@@ -1,10 +1,6 @@
 import express, { urlencoded } from 'express';
 import dotenv from 'dotenv';
-import {
-  connectPassport,
-  createDocument,
-  documentRead,
-} from './utils/provider.js';
+import { connectPassport } from './utils/provider.js';
 import { editDocument } from './controllers/document.js';
 import session from 'express-session';
 import cors from 'cors';
@@ -41,8 +37,6 @@ app.use(passport.session());
 app.use(cors());
 
 connectPassport();
-// createDocument();
-// documentRead();
 
 app.use('/api/v1', userRoute);
 app.use('/api/v1', documentRoute);
