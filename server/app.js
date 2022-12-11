@@ -7,6 +7,7 @@ import {
 } from './utils/provider.js';
 import { editDocument } from './controllers/document.js';
 import session from 'express-session';
+import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { errorMiddleware } from './middlewares/errorMiddleware.js';
 import passport from 'passport';
@@ -36,6 +37,8 @@ app.use(urlencoded({ extended: true }));
 app.use(passport.authenticate('session'));
 app.use(passport.initialize());
 app.use(passport.session());
+// to enable cors
+app.use(cors());
 
 connectPassport();
 // createDocument();
