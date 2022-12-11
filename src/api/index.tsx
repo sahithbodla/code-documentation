@@ -34,3 +34,17 @@ export const deleteCell = async (docId: string, cellId: string) => {
     })
     .catch(apiErrorCallback);
 };
+
+export const setOrder = async (docId: string, order: string[]) => {
+  return await axios
+    .patch(
+      `${process.env.REACT_APP_SERVER_URI}${process.env.REACT_APP_API_VERSION}document/order/${docId}`,
+      {
+        order,
+      }
+    )
+    .then((response) => {
+      return response.data;
+    })
+    .catch(apiErrorCallback);
+};
