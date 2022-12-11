@@ -5,8 +5,9 @@ import { asyncErrorHandler } from '../middlewares/errorMiddleware.js';
 export const createDocument = asyncErrorHandler(async (req, res, next) => {
   const { docName, docData } = req.body;
   const user = 'req.user._id';
+  const docId = Math.random().toString(36).slice(2);
   const document = {
-    docId: Math.random().toString(36).slice(2),
+    docId,
     docOwner: user,
     docName,
     docData,
@@ -16,6 +17,7 @@ export const createDocument = asyncErrorHandler(async (req, res, next) => {
 
   res.status(201).json({
     success: true,
+    documentId: docId,
     message: 'document created successfully',
   });
 });

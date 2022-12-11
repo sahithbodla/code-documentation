@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+/.eslintcache
 
 # testing
 /coverage
@@ -25,3 +26,4 @@ yarn-error.log*
 
 # server
 /server/node_modules
+/server/rough.md
