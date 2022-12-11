@@ -23,3 +23,14 @@ export const getDocument = async (docId: string) => {
     })
     .catch(apiErrorCallback);
 };
+
+export const deleteCell = async (docId: string, cellId: string) => {
+  return await axios
+    .delete(
+      `${process.env.REACT_APP_SERVER_URI}${process.env.REACT_APP_API_VERSION}document/${docId}/${cellId}`
+    )
+    .then((response) => {
+      return response.data;
+    })
+    .catch(apiErrorCallback);
+};

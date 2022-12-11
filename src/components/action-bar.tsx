@@ -1,5 +1,7 @@
-import React from 'react';
-import { useActions } from '../hooks';
+import React, { useRef } from 'react';
+import { useParams } from 'react-router-dom';
+import { useActions, useTypedSelector } from '../hooks';
+import { deleteCell as deleteCellInDB } from '../api';
 import './action-bar.css';
 
 interface ActionBarProps {
@@ -8,6 +10,15 @@ interface ActionBarProps {
 
 const ActionBar: React.FC<ActionBarProps> = ({ id }) => {
   const { deleteCell, moveCell, deleteBundle } = useActions();
+  const order = useTypedSelector((state) => state.cells.order);
+  const docIdRef = useRef(useParams());
+  const handleDeleteCell = async (id: string, order: string[]) => {
+    deleteCell(id);
+    deleteBundle(id);
+    if (docIdRef.current.id) {
+      await deleteCellInDB(docIdRef.current.id, id);
+    }
+  };
   return (
     <div className="action-bar">
       <button
@@ -29,8 +40,7 @@ const ActionBar: React.FC<ActionBarProps> = ({ id }) => {
       <button
         className="button is-primary is-small"
         onClick={() => {
-          deleteCell(id);
-          deleteBundle(id);
+          handleDeleteCell(id, order);
         }}
       >
         <span className="icon">

@@ -21,5 +21,5 @@ router.patch('/document/cells/:id', setCellsContentInDocument);
 router.get('/document/:id', getDocument);
 router.get('/documents/:id', getAllDocsByOwner);
 
-router.delete('/document/:id', deleteCellInDocument);
+router.delete('/document/:id/:cellId', deleteCellInDocument);
 export default router;

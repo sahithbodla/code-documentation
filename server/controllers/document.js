@@ -94,11 +94,9 @@ export const getAllDocsByOwner = asyncErrorHandler(async (req, res, next) => {
 // @delete - delete a particular cell for given document ID
 export const deleteCellInDocument = asyncErrorHandler(
   async (req, res, next) => {
-    const { cellId } = req.body;
     const { docData } = await Document.findOne({ docId: req.params.id });
-    console.log(docData.data);
     const data = docData.data;
-    data.delete(cellId);
+    data.delete(req.params.cellId);
 
     await Document.updateOne(
       { docId: req.params.id },
