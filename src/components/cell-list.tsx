@@ -42,6 +42,7 @@ const CellList: React.FC = () => {
       const response = await saveNewDocument(dataObj);
       if (response.success) {
         navigate(`/${response.documentId}`);
+        window.location.reload();
       } else {
         // TODO: Handle failure reponse
       }
