@@ -19,6 +19,11 @@ const CellList: React.FC = () => {
     <div className="cell-list">
       <AddCell forceVisible={cells.length === 0} prevCellId={null} />
       {renderedCells}
+      <div className="save-container">
+        <button className="saveBtn button is-primary is-rounded">
+          Save Documentation
+        </button>
+      </div>
     </div>
   );
 };

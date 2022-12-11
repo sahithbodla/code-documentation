@@ -5,3 +5,13 @@
 .react-draggable-transparent-selection .cell-list {
   margin-bottom: 100vh;
 }
+
+.save-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.save-container .saveBtn {
+  width: 95%;
+}
