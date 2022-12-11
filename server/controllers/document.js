@@ -75,6 +75,23 @@ export const getDocument = asyncErrorHandler(async (req, res, next) => {
   }
 });
 
+// @get - get document data for given document ID
+export const getOrder = asyncErrorHandler(async (req, res, next) => {
+  const document = await Document.findOne({ docId: req.params.id });
+
+  if (document) {
+    res.status(201).json({
+      success: true,
+      order: document.docData.order,
+    });
+  } else {
+    res.status(404).json({
+      success: false,
+      message: `Document with ${req.params.id} does not exist`,
+    });
+  }
+});
+
 // @get - get all documents lists for a given user
 export const getAllDocsByOwner = asyncErrorHandler(async (req, res, next) => {
   const documents = await Document.find({ docOwner: req.params.id });

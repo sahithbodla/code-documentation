@@ -24,6 +24,17 @@ export const getDocument = async (docId: string) => {
     .catch(apiErrorCallback);
 };
 
+export const getOrder = async (docId: string) => {
+  return await axios
+    .get(
+      `${process.env.REACT_APP_SERVER_URI}${process.env.REACT_APP_API_VERSION}document/order/${docId}`
+    )
+    .then((response) => {
+      return response.data;
+    })
+    .catch(apiErrorCallback);
+};
+
 export const deleteCell = async (docId: string, cellId: string) => {
   return await axios
     .delete(
@@ -41,6 +52,21 @@ export const setOrder = async (docId: string, order: string[]) => {
       `${process.env.REACT_APP_SERVER_URI}${process.env.REACT_APP_API_VERSION}document/order/${docId}`,
       {
         order,
+      }
+    )
+    .then((response) => {
+      return response.data;
+    })
+    .catch(apiErrorCallback);
+};
+
+export const addCell = async (docId: string, type: string, id: string) => {
+  return await axios
+    .patch(
+      `${process.env.REACT_APP_SERVER_URI}${process.env.REACT_APP_API_VERSION}document/${docId}`,
+      {
+        type,
+        id,
       }
     )
     .then((response) => {

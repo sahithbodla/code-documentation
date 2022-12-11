@@ -47,7 +47,7 @@ const reducer = produce(
         const cell: Cell = {
           content: '',
           type: action.payload.type,
-          id: randomId(),
+          id: action.payload.cellId,
         };
         state.data[cell.id] = cell;
         const foundIndex = state.order.findIndex(

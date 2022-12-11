@@ -34,7 +34,7 @@ const CellList: React.FC = () => {
       }
     };
     dummy();
-  }, []);
+  }, [loadInitData]);
 
   const handleSaveDocClick = async () => {
     if (!docIdRef.current.id) {

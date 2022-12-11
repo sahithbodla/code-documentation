@@ -21,6 +21,7 @@ export interface InsertCellAfterCellAction {
   payload: {
     id: string | null;
     type: CellTypes;
+    cellId: string;
   };
 }
 
