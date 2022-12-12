@@ -15,7 +15,7 @@ export const getNewDocumentObj = (
   data: {
     [cell: string]: Cell;
   },
-  docName: string = 'Aladdin Structures 7.0'
+  docName: string = 'Code Master 1.0'
 ): GetSaveNewDocumentObj => {
   return { docName, docData: { order, data } };
 };
