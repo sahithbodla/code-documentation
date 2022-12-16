@@ -88,3 +88,14 @@ export const editCells = async (docId: string, changedCells: EditCells[]) => {
     })
     .catch(apiErrorCallback);
 };
+
+export const getAllDocumentsByUser = async (userId: string) => {
+  return await axios
+    .get(
+      `${process.env.REACT_APP_SERVER_URI}${process.env.REACT_APP_API_VERSION}documents/${userId}`
+    )
+    .then((response) => {
+      return response.data;
+    })
+    .catch(apiErrorCallback);
+};
