@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './document-list.css';
 import { getAllDocumentsByUser } from '../api';
 import { tempUserId } from '../constants';
 
 const DocumentList: React.FC = () => {
   const [documentsList, setDocumentsList] = useState([]);
-  const navigate = useNavigate();
   useEffect(() => {
     (async function dummy() {
       const response = await getAllDocumentsByUser(tempUserId);
@@ -30,15 +29,13 @@ const DocumentList: React.FC = () => {
       </div>
       {documentsList.map(({ name, id }) => {
         return (
-          <div
+          <Link
             key={id}
             className="panel-block hover-pointer"
-            onClick={() => {
-              navigate(`/${id}`);
-            }}
+            to={`document/${id}`}
           >
             {name}
-          </div>
+          </Link>
         );
       })}
     </article>

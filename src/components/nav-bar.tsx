@@ -39,6 +39,7 @@ const NavBar: React.FC = () => {
             className="navbar-item hover-pointer"
             onClick={() => {
               navigate('/create');
+              window.location.reload();
             }}
           >
             Create New

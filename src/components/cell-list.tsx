@@ -11,7 +11,8 @@ const CellList: React.FC = () => {
   const docIdRef = useRef(useParams());
   const [docName, setDocName] = useState<string>();
   const navigate = useNavigate();
-  const { loadInitData } = useActions();
+  const { loadInitData, initialiseCellState, initialiseBundleState } =
+    useActions();
   const cells = useTypedSelector(({ cells: { order, data } }) =>
     order.map((id) => data[id])
   );
@@ -21,6 +22,13 @@ const CellList: React.FC = () => {
       data: state.cells.data,
     };
   });
+
+  useEffect(() => {
+    return () => {
+      initialiseCellState();
+      initialiseBundleState();
+    };
+  }, []);
 
   useEffect(() => {
     const dummy = async () => {
@@ -51,7 +59,7 @@ const CellList: React.FC = () => {
     const dataObj = getNewDocumentObj(docInfo.order, docInfo.data, docName);
     const response = await saveNewDocument(dataObj);
     if (response.success) {
-      navigate(`/${response.documentId}`);
+      navigate(`/document/${response.documentId}`);
       window.location.reload();
     } else {
       // TODO: Handle failure reponse

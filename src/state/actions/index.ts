@@ -64,6 +64,12 @@ export interface DeleteBundle {
   type: ActionType.DELETE_BUNDLE;
   payload: string;
 }
+export interface InitialiseCellState {
+  type: ActionType.INITIAL_CELL_STATE;
+}
+export interface InitialiseBundleState {
+  type: ActionType.INITIAL_BUNDLE_STATE;
+}
 
 export type Action =
   | MoveCellAction
@@ -73,4 +79,6 @@ export type Action =
   | BundleStartAction
   | DeleteBundle
   | BundleCompleteAction
-  | LoadInitDataAction;
+  | LoadInitDataAction
+  | InitialiseCellState
+  | InitialiseBundleState;

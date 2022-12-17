@@ -8,7 +8,7 @@ import CellList from './components/cell-list';
 import DocumentList from './components/document-list';
 import NavBar from './components/nav-bar';
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <Provider store={store}>
       <Router>
@@ -17,7 +17,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<DocumentList />}></Route>
             <Route path="/create" element={<CellList />}></Route>
-            <Route path="/:id" element={<CellList />}></Route>
+            <Route path="/document/:id" element={<CellList />}></Route>
           </Routes>
         </div>
       </Router>

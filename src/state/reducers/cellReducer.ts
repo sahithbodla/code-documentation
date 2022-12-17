@@ -64,6 +64,9 @@ const reducer = produce(
         state.data = data;
         return state;
 
+      case ActionType.INITIAL_CELL_STATE:
+        return initialState;
+
       default:
         return state;
     }
