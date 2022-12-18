@@ -18,12 +18,22 @@ const DocumentList: React.FC<IDocumentsListProps> = ({
   recordsPerPage,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState('');
 
   const lastRecordIndex = currentPage * recordsPerPage;
   const firstRecordIndex = lastRecordIndex - recordsPerPage;
 
   const nPages = Math.ceil(documentList.length / recordsPerPage);
-  const currentDocs = documentList.slice(firstRecordIndex, lastRecordIndex);
+  const currentDocs = documentList
+    .filter(({ name, id }) => {
+      if (
+        name.toLowerCase().indexOf(search.toLowerCase()) !== -1 ||
+        id === search
+      )
+        return true;
+      return false;
+    })
+    .slice(firstRecordIndex, lastRecordIndex);
 
   return (
     <article className="panel is-primary doc-list-container">
@@ -34,6 +44,7 @@ const DocumentList: React.FC<IDocumentsListProps> = ({
             type="text"
             placeholder="Search Document"
             className="input is-primary"
+            onChange={(e) => setSearch(e.target.value)}
           />
           <span className="icon is-left">
             <i className="fas fa-search" aria-hidden="true"></i>
