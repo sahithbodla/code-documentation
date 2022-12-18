@@ -1,17 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './document-list.css';
-import { getAllDocumentsByUser } from '../api';
-import { tempUserId } from '../constants';
+import Pagination from './pagination';
 
-const DocumentList: React.FC = () => {
-  const [documentsList, setDocumentsList] = useState([]);
-  useEffect(() => {
-    (async function dummy() {
-      const response = await getAllDocumentsByUser(tempUserId);
-      setDocumentsList(response.documents);
-    })();
-  }, []);
+interface Document {
+  name: string;
+  id: string;
+}
+
+interface IDocumentsListProps {
+  documentList: Array<Document>;
+  recordsPerPage: number;
+}
+
+const DocumentList: React.FC<IDocumentsListProps> = ({
+  documentList,
+  recordsPerPage,
+}) => {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const lastRecordIndex = currentPage * recordsPerPage;
+  const firstRecordIndex = lastRecordIndex - recordsPerPage;
+
+  const nPages = Math.ceil(documentList.length / recordsPerPage);
+  const currentDocs = documentList.slice(firstRecordIndex, lastRecordIndex);
+
   return (
     <article className="panel is-primary doc-list-container">
       <p className="panel-heading">All Documents</p>
@@ -27,7 +40,16 @@ const DocumentList: React.FC = () => {
           </span>
         </p>
       </div>
-      {documentsList.map(({ name, id }) => {
+      {documentList.length > recordsPerPage && (
+        <div className="panel-block">
+          <Pagination
+            nPages={nPages}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        </div>
+      )}
+      {currentDocs.map(({ name, id }) => {
         return (
           <Link
             key={id}
