@@ -24,11 +24,22 @@ const CellList: React.FC = () => {
   });
 
   useEffect(() => {
+    (
+      document.querySelectorAll(
+        '.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button'
+      ) || []
+    ).forEach(($close) => {
+      const $target = $close.closest('.modal');
+
+      $close.addEventListener('click', () => {
+        $target?.classList.remove('is-active');
+      });
+    });
     return () => {
       initialiseCellState();
       initialiseBundleState();
     };
-  }, []);
+  }, [initialiseCellState, initialiseBundleState]);
 
   useEffect(() => {
     const dummy = async () => {
@@ -61,6 +72,9 @@ const CellList: React.FC = () => {
     if (response.success) {
       navigate(`/document/${response.documentId}`);
       window.location.reload();
+      document
+        .getElementById('modal-js-example')
+        ?.classList.remove('is-active');
     } else {
       // TODO: Handle failure reponse
     }
@@ -89,6 +103,11 @@ const CellList: React.FC = () => {
           <button
             className="saveBtn button is-primary is-rounded js-modal-trigger"
             data-target="modal-js-example"
+            onClick={() => {
+              document
+                .getElementById('modal-js-example')
+                ?.classList.add('is-active');
+            }}
           >
             Save Documentation
           </button>

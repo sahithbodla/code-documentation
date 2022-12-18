@@ -10,6 +10,7 @@ import {
   DeleteBundle,
   InitialiseCellState,
   InitialiseBundleState,
+  SetTheme,
 } from '../actions';
 import { Cell, CellTypes } from '../cell';
 import bundle from '../../bundler';
@@ -102,6 +103,11 @@ export const deleteBundle = (payload: string): DeleteBundle => {
 export const initialiseCellState = (): InitialiseCellState => {
   return { type: ActionType.INITIAL_CELL_STATE };
 };
+
 export const initialiseBundleState = (): InitialiseBundleState => {
   return { type: ActionType.INITIAL_BUNDLE_STATE };
+};
+
+export const setTheme = (payload: string): SetTheme => {
+  return { type: ActionType.SET_THEME, payload };
 };

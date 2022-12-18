@@ -70,6 +70,10 @@ export interface InitialiseCellState {
 export interface InitialiseBundleState {
   type: ActionType.INITIAL_BUNDLE_STATE;
 }
+export interface SetTheme {
+  type: ActionType.SET_THEME;
+  payload: string;
+}
 
 export type Action =
   | MoveCellAction
@@ -81,4 +85,5 @@ export type Action =
   | BundleCompleteAction
   | LoadInitDataAction
   | InitialiseCellState
-  | InitialiseBundleState;
+  | InitialiseBundleState
+  | SetTheme;

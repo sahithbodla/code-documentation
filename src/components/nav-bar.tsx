@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { setTheme as setThemeInDB } from '../api';
+import { supportedThemes, tempUserGoodleId } from '../constants';
 import './nar-bar.css';
 
 const NavBar: React.FC = () => {
@@ -8,9 +10,9 @@ const NavBar: React.FC = () => {
     <nav className="navbar" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
         <div className="navbar-item">
-          <button className="button is-light is-primary is-rounded">
-            Code Documentation
-          </button>
+          <h1 className="hover-pointer">
+            <b>CodeBook</b>
+          </h1>
         </div>
         <a
           href="www.goggle.com"
@@ -42,16 +44,30 @@ const NavBar: React.FC = () => {
               window.location.reload();
             }}
           >
-            Create New
+            Create
           </div>
           <div className="navbar-item has-dropdown is-hoverable">
             <div className="navbar-link">Themes</div>
             <div className="navbar-dropdown">
-              <div className="navbar-item hover-pointer">Super Man</div>
-              <div className="navbar-item hover-pointer">Spider Man</div>
-              <div className="navbar-item hover-pointer">Bat Man</div>
+              {supportedThemes.map((theme) => {
+                return (
+                  <div
+                    key={Object.keys(theme)[0]}
+                    className="navbar-item hover-pointer"
+                    onClick={async () => {
+                      await setThemeInDB(
+                        tempUserGoodleId,
+                        Object.keys(theme)[0]
+                      );
+                      window.location.reload();
+                    }}
+                  >
+                    {Object.values(theme)[0]}
+                  </div>
+                );
+              })}
               <hr className="navbar-divider" />
-              <div className="navbar-item hover-pointer">Default Theme</div>
+              <div className="navbar-item hover-pointer">Set to Default</div>
             </div>
           </div>
         </div>

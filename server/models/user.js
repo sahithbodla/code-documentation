@@ -16,6 +16,11 @@ const schema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  theme: {
+    type: String,
+    enum: ['slate', 'solar', 'superhero'],
+    default: 'slate',
+  },
 });
 
 export const User = mongoose.model('User', schema);

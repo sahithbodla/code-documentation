@@ -99,3 +99,28 @@ export const getAllDocumentsByUser = async (userId: string) => {
     })
     .catch(apiErrorCallback);
 };
+
+export const getTheme = async (googleId: string) => {
+  return await axios
+    .get(
+      `${process.env.REACT_APP_SERVER_URI}${process.env.REACT_APP_API_VERSION}user/${googleId}`
+    )
+    .then((response) => {
+      return response.data;
+    })
+    .catch(apiErrorCallback);
+};
+
+export const setTheme = async (googleId: string, theme: string) => {
+  return await axios
+    .patch(
+      `${process.env.REACT_APP_SERVER_URI}${process.env.REACT_APP_API_VERSION}user/${googleId}`,
+      {
+        theme,
+      }
+    )
+    .then((response) => {
+      return response.data;
+    })
+    .catch(apiErrorCallback);
+};

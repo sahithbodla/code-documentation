@@ -9,4 +9,5 @@ export enum ActionType {
   LOAD_INIT_DATA = 'load_init_data',
   INITIAL_CELL_STATE = 'initial_cell_state',
   INITIAL_BUNDLE_STATE = 'initial_bundle_state',
+  SET_THEME = 'set_theme',
 }

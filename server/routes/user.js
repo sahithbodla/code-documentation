@@ -1,6 +1,6 @@
 import express from 'express';
 import passport from 'passport';
-import { myProfile, logout } from '../controllers/user.js';
+import { myProfile, logout, getTheme, setTheme } from '../controllers/user.js';
 import { isAuthenticated } from '../middlewares/auth.js';
 
 const router = express.Router();
@@ -18,5 +18,9 @@ router.get('/login', passport.authenticate('google'), (req, res, next) => {
 
 router.get('/me', isAuthenticated, myProfile);
 router.get('/logout', logout);
+
+// user theme routes
+router.get('/user/:id', getTheme);
+router.patch('/user/:id', setTheme);
 
 export default router;

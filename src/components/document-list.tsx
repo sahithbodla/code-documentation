@@ -11,9 +11,9 @@ const DocumentList: React.FC = () => {
       const response = await getAllDocumentsByUser(tempUserId);
       setDocumentsList(response.documents);
     })();
-  }, [documentsList]);
+  }, []);
   return (
-    <article className="panel is-success doc-list-container">
+    <article className="panel is-primary doc-list-container">
       <p className="panel-heading">All Documents</p>
       <div className="panel-block">
         <p className="control has-icons-left">
