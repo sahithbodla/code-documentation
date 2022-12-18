@@ -20,8 +20,8 @@ const Pagination: React.FC<IPaginationProps> = ({
     firstPageNumber = 1;
     lastPageNumber = 4;
   } else if (currentPage === nPages) {
-    firstPageNumber = nPages - 2;
-    lastPageNumber = nPages + 1;
+    firstPageNumber = nPages - 2 || 1;
+    lastPageNumber = firstPageNumber + 3;
   } else {
     firstPageNumber = currentPage - 1;
     lastPageNumber = currentPage + 2;
