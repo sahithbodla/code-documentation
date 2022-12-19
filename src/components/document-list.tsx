@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './document-list.css';
 import Pagination from './pagination';
 
@@ -17,6 +17,8 @@ const DocumentList: React.FC<IDocumentsListProps> = ({
   documentList,
   recordsPerPage,
 }) => {
+  const navigate = useNavigate();
+
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState('');
 
@@ -35,6 +37,24 @@ const DocumentList: React.FC<IDocumentsListProps> = ({
     })
     .slice(firstRecordIndex, lastRecordIndex);
 
+  if (documentList.length === 0) {
+    return (
+      <div className="no-docs-container">
+        <h1 className="title">Welcome to CodeBook</h1>
+        <h1 className="subtitle">
+          The place where you can code and document at the same time!
+        </h1>
+        <button
+          className="button is-primary"
+          onClick={() => {
+            navigate('/create');
+          }}
+        >
+          Create Document
+        </button>
+      </div>
+    );
+  }
   return (
     <article className="panel is-primary doc-list-container">
       <p className="panel-heading">All Documents</p>

@@ -59,13 +59,17 @@ export const insertCellAfter = (
 
 export const loadInitData = (
   order: string[],
-  data: { [cell: string]: Cell }
+  data: { [cell: string]: Cell },
+  docId: string,
+  docName: string
 ) => {
   return {
     type: ActionType.LOAD_INIT_DATA,
     payload: {
       order,
       data,
+      docId,
+      docName,
     },
   };
 };

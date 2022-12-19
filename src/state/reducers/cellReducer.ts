@@ -8,6 +8,8 @@ interface CellsState {
   error: string | null;
   order: string[];
   data: { [key: string]: Cell };
+  docId: string;
+  docName: string;
 }
 
 const initialState: CellsState = {
@@ -15,6 +17,8 @@ const initialState: CellsState = {
   error: null,
   order: [],
   data: {},
+  docId: '',
+  docName: '',
 };
 
 const reducer = produce(
@@ -59,9 +63,11 @@ const reducer = produce(
         return state;
 
       case ActionType.LOAD_INIT_DATA:
-        const { order, data } = action.payload;
+        const { order, data, docName, docId } = action.payload;
         state.order = order;
         state.data = data;
+        state.docId = docId;
+        state.docName = docName;
         return state;
 
       case ActionType.INITIAL_CELL_STATE:

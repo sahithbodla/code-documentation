@@ -46,7 +46,13 @@ const CellList: React.FC = () => {
       if (docIdRef.current.id) {
         const response2 = await getDocument(docIdRef.current.id);
         if (response2.success) {
-          loadInitData(response2.document.order, response2.document.data);
+          setDocName(response2.document.name);
+          loadInitData(
+            response2.document.order,
+            response2.document.data,
+            docIdRef.current.id,
+            response2.document.name
+          );
         } else {
           // TODO: Handle failure reponse
         }
@@ -89,6 +95,12 @@ const CellList: React.FC = () => {
 
   return (
     <div className="cell-list">
+      {docName && (
+        <div className="document-name-container">
+          <h1 className="title">{docName}</h1>
+          <h1 className="title">{docIdRef.current.id}</h1>
+        </div>
+      )}
       <AddCell forceVisible={cells.length === 0} prevCellId={null} />
       {renderedCells}
       <div className="save-container">

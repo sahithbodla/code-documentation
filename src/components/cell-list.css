@@ -15,3 +15,9 @@
 .save-container .saveBtn {
   width: 95%;
 }
+
+.document-name-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}

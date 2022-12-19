@@ -40,6 +40,8 @@ export interface LoadInitDataAction {
     data: {
       [cell: string]: Cell;
     };
+    docName: string;
+    docId: string;
   };
 }
 
