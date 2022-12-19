@@ -6,6 +6,7 @@ import { getNewDocumentObj, getChangedCells } from '../utils';
 import CellListItem from './cell-list-item';
 import AddCell from './add-cell';
 import './cell-list.css';
+import SaveButton from './save-button';
 
 const CellList: React.FC = () => {
   const docIdRef = useRef(useParams());
@@ -95,36 +96,20 @@ const CellList: React.FC = () => {
 
   return (
     <div className="cell-list">
-      {docName && (
+      {docName ? (
         <div className="document-name-container">
-          <h1 className="title">{docName}</h1>
-          <h1 className="title">{docIdRef.current.id}</h1>
+          <div>
+            <h1 className="title display-inline-block">{docName}</h1>
+            <SaveButton docId={docIdRef.current.id} saveChanges={saveChanges} />
+          </div>
+          <h6 className="title is-4">{docIdRef.current.id}</h6>
         </div>
+      ) : (
+        <SaveButton docId={docIdRef.current.id} saveChanges={saveChanges} />
       )}
       <AddCell forceVisible={cells.length === 0} prevCellId={null} />
       {renderedCells}
-      <div className="save-container">
-        {docIdRef.current.id ? (
-          <button
-            onClick={saveChanges}
-            className="saveBtn button is-primary is-rounded"
-          >
-            Save Changes
-          </button>
-        ) : (
-          <button
-            className="saveBtn button is-primary is-rounded js-modal-trigger"
-            data-target="modal-js-example"
-            onClick={() => {
-              document
-                .getElementById('modal-js-example')
-                ?.classList.add('is-active');
-            }}
-          >
-            Save Documentation
-          </button>
-        )}
-      </div>
+
       <div id="modal-js-example" className="modal">
         <div className="modal-background"></div>
         <div className="modal-card">

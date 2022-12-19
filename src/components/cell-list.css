@@ -1,19 +1,30 @@
 .cell-list {
   margin: 0 25px 50vh;
+  position: relative;
 }
 
 .react-draggable-transparent-selection .cell-list {
   margin-bottom: 100vh;
 }
 
-.save-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
+.display-inline-block {
+  display: inline-block;
 }
 
-.save-container .saveBtn {
-  width: 95%;
+.save-container {
+  margin-left: 10px;
+}
+
+.move-up {
+  top: -10px;
+}
+
+.save-margin {
+  margin: 10px 0px 0px 25px;
+}
+
+.hide {
+  display: none;
 }
 
 .document-name-container {
