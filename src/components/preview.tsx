@@ -47,7 +47,7 @@ const Preview: React.FC<PreviewProps> = ({ code, error }) => {
     // code ensure to reload the iframe contents completely for the next execution
     iframe.current.srcdoc = html;
     setTimeout(() => {
-      iframe.current.contentWindow.postMessage(code, '*');
+      iframe.current?.contentWindow.postMessage(code, '*');
     }, 50);
   }, [code]);
   return (

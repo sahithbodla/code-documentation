@@ -7,8 +7,13 @@ import {
   MoveCellAction,
   UpdateCellAction,
   Action,
+  DeleteBundle,
+  InitialiseCellState,
+  InitialiseBundleState,
+  SetTheme,
+  SetIsChanged,
 } from '../actions';
-import { CellTypes } from '../cell';
+import { Cell, CellTypes } from '../cell';
 import bundle from '../../bundler';
 
 export const updateCell = (id: string, content: string): UpdateCellAction => {
@@ -40,13 +45,32 @@ export const moveCell = (id: string, direction: Direction): MoveCellAction => {
 
 export const insertCellAfter = (
   id: string | null,
-  cellType: CellTypes
+  cellType: CellTypes,
+  cellId: string
 ): InsertCellAfterCellAction => {
   return {
     type: ActionType.INSERT_CELL_AFTER,
     payload: {
       id,
       type: cellType,
+      cellId,
+    },
+  };
+};
+
+export const loadInitData = (
+  order: string[],
+  data: { [cell: string]: Cell },
+  docId: string,
+  docName: string
+) => {
+  return {
+    type: ActionType.LOAD_INIT_DATA,
+    payload: {
+      order,
+      data,
+      docId,
+      docName,
     },
   };
 };
@@ -72,4 +96,27 @@ export const createBundle = (cellId: string, input: string) => {
       },
     });
   };
+};
+
+export const deleteBundle = (payload: string): DeleteBundle => {
+  return {
+    type: ActionType.DELETE_BUNDLE,
+    payload,
+  };
+};
+
+export const initialiseCellState = (): InitialiseCellState => {
+  return { type: ActionType.INITIAL_CELL_STATE };
+};
+
+export const initialiseBundleState = (): InitialiseBundleState => {
+  return { type: ActionType.INITIAL_BUNDLE_STATE };
+};
+
+export const setTheme = (payload: string): SetTheme => {
+  return { type: ActionType.SET_THEME, payload };
+};
+
+export const setIsChanged = (payload: boolean): SetIsChanged => {
+  return { type: ActionType.IS_CHANGED, payload };
 };

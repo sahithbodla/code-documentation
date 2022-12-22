@@ -1,5 +1,5 @@
 import { ActionType } from '../action-types';
-import { CellTypes } from '../cell';
+import { Cell, CellTypes } from '../cell';
 
 export type Direction = 'up' | 'down';
 
@@ -21,6 +21,7 @@ export interface InsertCellAfterCellAction {
   payload: {
     id: string | null;
     type: CellTypes;
+    cellId: string;
   };
 }
 
@@ -29,6 +30,18 @@ export interface UpdateCellAction {
   payload: {
     id: string;
     content: string;
+  };
+}
+
+export interface LoadInitDataAction {
+  type: ActionType.LOAD_INIT_DATA;
+  payload: {
+    order: string[];
+    data: {
+      [cell: string]: Cell;
+    };
+    docName: string;
+    docId: string;
   };
 }
 
@@ -49,10 +62,35 @@ export interface BundleCompleteAction {
   };
 }
 
+export interface DeleteBundle {
+  type: ActionType.DELETE_BUNDLE;
+  payload: string;
+}
+export interface InitialiseCellState {
+  type: ActionType.INITIAL_CELL_STATE;
+}
+export interface InitialiseBundleState {
+  type: ActionType.INITIAL_BUNDLE_STATE;
+}
+export interface SetTheme {
+  type: ActionType.SET_THEME;
+  payload: string;
+}
+export interface SetIsChanged {
+  type: ActionType.IS_CHANGED;
+  payload: boolean;
+}
+
 export type Action =
   | MoveCellAction
   | DeleteCellAction
   | InsertCellAfterCellAction
   | UpdateCellAction
   | BundleStartAction
-  | BundleCompleteAction;
+  | DeleteBundle
+  | BundleCompleteAction
+  | LoadInitDataAction
+  | InitialiseCellState
+  | InitialiseBundleState
+  | SetTheme
+  | SetIsChanged;

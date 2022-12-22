@@ -17,7 +17,14 @@
 .env.development.local
 .env.test.local
 .env.production.local
+/.env
+/.eslintcache
 
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+# server
+/server/node_modules
+/server/rough.md

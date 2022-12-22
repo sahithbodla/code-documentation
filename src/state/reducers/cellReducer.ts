@@ -8,6 +8,9 @@ interface CellsState {
   error: string | null;
   order: string[];
   data: { [key: string]: Cell };
+  docId: string;
+  docName: string;
+  isChanged: boolean;
 }
 
 const initialState: CellsState = {
@@ -15,6 +18,9 @@ const initialState: CellsState = {
   error: null,
   order: [],
   data: {},
+  docId: '',
+  docName: '',
+  isChanged: false,
 };
 
 const reducer = produce(
@@ -47,7 +53,7 @@ const reducer = produce(
         const cell: Cell = {
           content: '',
           type: action.payload.type,
-          id: randomId(),
+          id: action.payload.cellId,
         };
         state.data[cell.id] = cell;
         const foundIndex = state.order.findIndex(
@@ -58,15 +64,26 @@ const reducer = produce(
         } else state.order.splice(foundIndex + 1, 0, cell.id);
         return state;
 
+      case ActionType.LOAD_INIT_DATA:
+        const { order, data, docName, docId } = action.payload;
+        state.order = order;
+        state.data = data;
+        state.docId = docId;
+        state.docName = docName;
+        return state;
+
+      case ActionType.INITIAL_CELL_STATE:
+        return initialState;
+
+      case ActionType.IS_CHANGED:
+        state.isChanged = action.payload;
+        return state;
+
       default:
         return state;
     }
   },
   initialState
 );
-
-const randomId = () => {
-  return Math.random().toString(36).substr(2, 5);
-};
 
 export default reducer;
