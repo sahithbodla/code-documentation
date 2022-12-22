@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import './add-cell.css';
-import { useActions } from '../hooks';
+import { useActions, useTypedSelector } from '../hooks';
 import { randomId } from '../utils';
 import { CellTypes } from '../state';
 import { addCell, setOrder, getOrder } from '../api';
@@ -15,7 +15,8 @@ const AddCell: React.FC<AddCellProps> = ({
   prevCellId,
   forceVisible = false,
 }) => {
-  const { insertCellAfter } = useActions();
+  const { insertCellAfter, addServiceData } = useActions();
+  const { data } = useTypedSelector((state) => state.cells.serviceData);
   const docIdRef = useRef(useParams());
 
   const handleCellInsertion = async (type: CellTypes) => {
@@ -34,6 +35,10 @@ const AddCell: React.FC<AddCellProps> = ({
         order2 = [...order.order];
         order2.splice(foundIndex + 1, 0, cellId);
       }
+      addServiceData({
+        order: order2,
+        data: { ...data, [cellId]: { id: cellId, type, content: '' } },
+      });
       await addCell(docIdRef.current.id, type, cellId);
       await setOrder(docIdRef.current.id, order2);
     }

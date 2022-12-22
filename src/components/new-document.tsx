@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { saveNewDocument } from '../api';
-import { useTypedSelector } from '../hooks';
+import { useActions, useTypedSelector } from '../hooks';
 import { getNewDocumentObj } from '../utils';
 import SaveButton from './save-button';
 
@@ -17,12 +17,16 @@ const NewDocument: React.FC<INewDocumentProps> = ({
   docName,
 }) => {
   const navigate = useNavigate();
+  const { setIsChanged } = useActions();
   const docInfo = useTypedSelector((state) => {
     return {
       order: state.cells.order,
       data: state.cells.data,
     };
   });
+  useEffect(() => {
+    setIsChanged(docInfo.order.length > 0);
+  }, [docInfo.order]);
   const saveChanges = () => {
     document.getElementById('modal-js-example')?.classList.add('is-active');
   };

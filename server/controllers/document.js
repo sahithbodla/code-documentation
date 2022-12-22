@@ -127,6 +127,30 @@ export const deleteCellInDocument = asyncErrorHandler(
   }
 );
 
+// @delete - delete a particular cell for given document ID
+export const deleteCellsInDocument = asyncErrorHandler(
+  async (req, res, next) => {
+    const { cells } = req.body;
+    const { docData } = await Document.findOne({ docId: req.params.id });
+    const data = docData.data;
+
+    cells.forEach((cell) => {
+      data.delete(cell);
+    });
+
+    await Document.updateOne(
+      { docId: req.params.id },
+      { $set: { 'docData.data': data } }
+    );
+
+    res.status(201).json({
+      success: true,
+      cells,
+      message: `cells deleted successfully from ${req.params.id}`,
+    });
+  }
+);
+
 // @patch - edit order array for given document Id
 export const setOrderInDocument = asyncErrorHandler(async (req, res, next) => {
   const { order } = req.body;
@@ -150,11 +174,11 @@ export const setCellsContentInDocument = asyncErrorHandler(
     const { docData } = await Document.findOne({ docId: req.params.id });
     const map = docData.data;
     cells.forEach((cell) => {
-      const { cellId, content } = cell;
+      const { cellId, content, type = 'text' } = cell;
       const cellObj = map.get(cellId);
       map.set(cellId, {
         content: content,
-        type: cellObj.type,
+        type: cellObj?.type || type,
         id: cellId,
       });
     });

@@ -4,20 +4,34 @@ import { useActions, useTypedSelector } from '../hooks';
 import { deleteCell as deleteCellInDB, setOrder } from '../api';
 import './action-bar.css';
 import { Direction } from '../state/actions';
+import { Cell } from '../state';
 
 interface ActionBarProps {
   id: string;
 }
 
 const ActionBar: React.FC<ActionBarProps> = ({ id }) => {
-  const { deleteCell, moveCell, deleteBundle } = useActions();
-  const order = useTypedSelector((state) => state.cells.order);
+  const { deleteCell, moveCell, deleteBundle, addServiceData } = useActions();
+  const {
+    order,
+    serviceData: { order: order2, data },
+  } = useTypedSelector((state) => state.cells);
   const docIdRef = useRef(useParams());
   const handleDeleteCell = async (id: string) => {
     deleteCell(id);
     deleteBundle(id);
     if (docIdRef.current.id) {
       await deleteCellInDB(docIdRef.current.id, id);
+      const data2 = Object.entries(data).reduce(
+        (acc: { [key: string]: Cell }, [key, value]: [string, Cell]) => {
+          if (key !== id) {
+            acc[key] = value;
+          }
+          return acc;
+        },
+        {}
+      );
+      addServiceData({ order: order2, data: data2 });
       await setOrder(
         docIdRef.current.id,
         order.filter((id2) => id2 !== id)

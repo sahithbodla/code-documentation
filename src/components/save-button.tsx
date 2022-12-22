@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTypedSelector } from '../hooks';
 
 interface ISaveButtonProps {
   docId?: string | undefined;
@@ -9,6 +10,7 @@ const SaveButton: React.FC<ISaveButtonProps> = ({
   docId = '',
   saveChanges,
 }) => {
+  const isChanged = useTypedSelector((state) => state.cells.isChanged);
   return (
     <div className="save-container display-inline-block">
       <button
@@ -17,6 +19,7 @@ const SaveButton: React.FC<ISaveButtonProps> = ({
           docId ? 'move-up' : 'save-margin'
         } is-primary ${!docId && 'js-modal-trigger'}`}
         data-target="modal-js-example"
+        style={{ display: isChanged ? 'inline' : 'none' }}
       >
         Save
       </button>
