@@ -24,7 +24,7 @@ const ContentWrapper: React.FC = () => {
             <DocumentList documentList={documentList} recordsPerPage={8} />
           }
         ></Route>
-        <Route path="/create" element={<CellList />}></Route>
+        <Route path="/new" element={<CellList />}></Route>
         <Route path="/document/:id" element={<CellList />}></Route>
       </Routes>
     </div>
