@@ -10,6 +10,7 @@ interface CellsState {
   data: { [key: string]: Cell };
   docId: string;
   docName: string;
+  isChanged: boolean;
 }
 
 const initialState: CellsState = {
@@ -19,6 +20,7 @@ const initialState: CellsState = {
   data: {},
   docId: '',
   docName: '',
+  isChanged: false,
 };
 
 const reducer = produce(
@@ -72,6 +74,10 @@ const reducer = produce(
 
       case ActionType.INITIAL_CELL_STATE:
         return initialState;
+
+      case ActionType.IS_CHANGED:
+        state.isChanged = action.payload;
+        return state;
 
       default:
         return state;

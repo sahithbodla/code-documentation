@@ -11,6 +11,7 @@ import {
   InitialiseCellState,
   InitialiseBundleState,
   SetTheme,
+  SetIsChanged,
 } from '../actions';
 import { Cell, CellTypes } from '../cell';
 import bundle from '../../bundler';
@@ -114,4 +115,8 @@ export const initialiseBundleState = (): InitialiseBundleState => {
 
 export const setTheme = (payload: string): SetTheme => {
   return { type: ActionType.SET_THEME, payload };
+};
+
+export const setIsChanged = (payload: boolean): SetIsChanged => {
+  return { type: ActionType.IS_CHANGED, payload };
 };

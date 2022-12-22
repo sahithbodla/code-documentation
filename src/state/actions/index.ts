@@ -76,6 +76,10 @@ export interface SetTheme {
   type: ActionType.SET_THEME;
   payload: string;
 }
+export interface SetIsChanged {
+  type: ActionType.IS_CHANGED;
+  payload: boolean;
+}
 
 export type Action =
   | MoveCellAction
@@ -88,4 +92,5 @@ export type Action =
   | LoadInitDataAction
   | InitialiseCellState
   | InitialiseBundleState
-  | SetTheme;
+  | SetTheme
+  | SetIsChanged;

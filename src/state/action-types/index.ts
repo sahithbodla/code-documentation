@@ -10,4 +10,5 @@ export enum ActionType {
   INITIAL_CELL_STATE = 'initial_cell_state',
   INITIAL_BUNDLE_STATE = 'initial_bundle_state',
   SET_THEME = 'set_theme',
+  IS_CHANGED = 'is_changed',
 }

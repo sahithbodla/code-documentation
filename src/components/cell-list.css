@@ -13,6 +13,12 @@
 
 .save-container {
   margin-left: 10px;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+
+.save-container:hover {
+  opacity: 1;
 }
 
 .move-up {
