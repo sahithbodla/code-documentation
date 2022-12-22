@@ -1,6 +1,6 @@
 import React from 'react';
-import { editCells, getDocument } from '../api';
-import { useTypedSelector } from '../hooks';
+import { editCells } from '../api';
+import { useActions, useTypedSelector } from '../hooks';
 import { getChangedCells } from '../utils';
 import SaveButton from './save-button';
 
@@ -15,16 +15,22 @@ const Document: React.FC<IDocumentProps> = ({ children, docId, docName }) => {
     return {
       order: state.cells.order,
       data: state.cells.data,
+      serviceData: state.cells.serviceData,
     };
   });
+  const { addServiceData } = useActions();
 
   const saveChanges = async () => {
     if (docId) {
-      const oldDocument = await getDocument(docId);
-      const newData = docInfo.data;
-      const changedCells = getChangedCells(oldDocument.document.data, newData);
-      if (changedCells.length > 0) {
-        await editCells(docId, changedCells);
+      const {
+        serviceData: { data: sData },
+        data,
+        order,
+      } = docInfo;
+      const modifiedCells = getChangedCells(sData, data);
+      if (modifiedCells.length > 0) {
+        await editCells(docId, modifiedCells);
+        addServiceData({ order, data });
       }
     }
   };

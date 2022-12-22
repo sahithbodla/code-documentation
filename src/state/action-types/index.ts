@@ -11,4 +11,5 @@ export enum ActionType {
   INITIAL_BUNDLE_STATE = 'initial_bundle_state',
   SET_THEME = 'set_theme',
   IS_CHANGED = 'is_changed',
+  ADD_SERVICE_DATA = 'add_service_data',
 }

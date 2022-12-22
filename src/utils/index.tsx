@@ -51,7 +51,7 @@ export const getChangedCells = (
 ): EditCells[] => {
   let arr: EditCells[] = [];
   Object.entries(newData).forEach((cell) => {
-    if (newData[cell[0]].content !== oldData[cell[0]].content) {
+    if (newData[cell[0]].content !== oldData[cell[0]]?.content || '') {
       arr.push({ cellId: cell[0], content: newData[cell[0]].content });
     }
   });

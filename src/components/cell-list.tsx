@@ -11,8 +11,12 @@ import Document from './document';
 const CellList: React.FC = () => {
   const docIdRef = useRef(useParams());
   const [docName, setDocName] = useState<string>();
-  const { loadInitData, initialiseCellState, initialiseBundleState } =
-    useActions();
+  const {
+    loadInitData,
+    initialiseCellState,
+    initialiseBundleState,
+    addServiceData,
+  } = useActions();
   const cells = useTypedSelector(({ cells: { order, data } }) =>
     order.map((id) => data[id])
   );
@@ -41,6 +45,10 @@ const CellList: React.FC = () => {
     const dummy = async () => {
       if (docIdRef.current.id) {
         const response2 = await getDocument(docIdRef.current.id);
+        addServiceData({
+          order: response2.document.order,
+          data: response2.document.data,
+        });
         if (response2.success) {
           setDocName(response2.document.name);
           loadInitData(
@@ -55,7 +63,7 @@ const CellList: React.FC = () => {
       }
     };
     dummy();
-  }, [loadInitData]);
+  }, [loadInitData, addServiceData]);
 
   const cellsToRender = (
     <React.Fragment>
