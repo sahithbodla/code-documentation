@@ -11,6 +11,7 @@ import {
   InitialiseCellState,
   InitialiseBundleState,
   SetTheme,
+  SetIsChanged,
 } from '../actions';
 import { Cell, CellTypes } from '../cell';
 import bundle from '../../bundler';
@@ -59,13 +60,17 @@ export const insertCellAfter = (
 
 export const loadInitData = (
   order: string[],
-  data: { [cell: string]: Cell }
+  data: { [cell: string]: Cell },
+  docId: string,
+  docName: string
 ) => {
   return {
     type: ActionType.LOAD_INIT_DATA,
     payload: {
       order,
       data,
+      docId,
+      docName,
     },
   };
 };
@@ -110,4 +115,8 @@ export const initialiseBundleState = (): InitialiseBundleState => {
 
 export const setTheme = (payload: string): SetTheme => {
   return { type: ActionType.SET_THEME, payload };
+};
+
+export const setIsChanged = (payload: boolean): SetIsChanged => {
+  return { type: ActionType.IS_CHANGED, payload };
 };
