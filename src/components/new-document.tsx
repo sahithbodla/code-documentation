@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { saveNewDocument } from '../api';
+import { TOAST_DOCUMENT, TOAST_DOCUMENT_FAIL } from '../constants';
 import { useActions, useTypedSelector } from '../hooks';
-import { getNewDocumentObj } from '../utils';
+import { getNewDocumentObj, setToast } from '../utils';
 import SaveButton from './save-button';
 
 interface INewDocumentProps {
@@ -39,8 +40,9 @@ const NewDocument: React.FC<INewDocumentProps> = ({
       document
         .getElementById('modal-js-example')
         ?.classList.remove('is-active');
+      setToast(TOAST_DOCUMENT);
     } else {
-      // TODO: Handle failure reponse
+      setToast(TOAST_DOCUMENT_FAIL);
     }
   };
   return (

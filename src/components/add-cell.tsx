@@ -1,10 +1,10 @@
-import React, { useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import React from 'react';
 import './add-cell.css';
 import { useActions, useTypedSelector } from '../hooks';
 import { randomId, setToast } from '../utils';
 import { CellTypes } from '../state';
-import { addCell, setOrder, getOrder } from '../api';
+import { addCell, setOrder, getOrder, deleteCell } from '../api';
+import { TOAST_ADD_CELL, TOAST_ADD_CELL_FAIL, TOAST_FAIL } from '../constants';
 
 interface AddCellProps {
   prevCellId: string | null;
@@ -16,32 +16,49 @@ const AddCell: React.FC<AddCellProps> = ({
   forceVisible = false,
 }) => {
   const { insertCellAfter, addServiceData } = useActions();
-  const { data } = useTypedSelector((state) => state.cells.serviceData);
-  const docIdRef = useRef(useParams());
+  const { docId, data } = useTypedSelector((state) => {
+    return { docId: state.cells.docId, data: state.cells.serviceData.data };
+  });
 
   const handleCellInsertion = async (type: CellTypes) => {
     const cellId = randomId();
-    insertCellAfter(prevCellId, type, cellId);
-    if (docIdRef.current.id) {
-      const order = await getOrder(docIdRef.current.id);
-      const foundIndex = order.order.findIndex(
-        (id: string) => id === prevCellId
-      );
-      let order2: string[] = [];
-      if (foundIndex === -1) {
-        order2 = [...order.order];
-        order2.unshift(cellId);
+    if (docId) {
+      const cResponse = await addCell(docId, type, cellId);
+
+      if (cResponse.success) {
+        const order = await getOrder(docId);
+        const foundIndex = order.order.findIndex(
+          (id: string) => id === prevCellId
+        );
+        let order2: string[] = [];
+        if (foundIndex === -1) {
+          order2 = [...order.order];
+          order2.unshift(cellId);
+        } else {
+          order2 = [...order.order];
+          order2.splice(foundIndex + 1, 0, cellId);
+        }
+        const oResponse = await setOrder(docId, order2);
+        if (oResponse.success) {
+          insertCellAfter(prevCellId, type, cellId);
+          addServiceData({
+            order: order2,
+            data: { ...data, [cellId]: { id: cellId, type, content: '' } },
+          });
+          setToast(
+            type[0].toUpperCase() + type.slice(1) + ` ${TOAST_ADD_CELL}`
+          );
+        } else {
+          await deleteCell(docId, cellId);
+          setToast(TOAST_FAIL);
+        }
       } else {
-        order2 = [...order.order];
-        order2.splice(foundIndex + 1, 0, cellId);
+        if ((cResponse.message = 'duplicate_cell_id')) {
+          setToast(TOAST_ADD_CELL_FAIL);
+        }
       }
-      addServiceData({
-        order: order2,
-        data: { ...data, [cellId]: { id: cellId, type, content: '' } },
-      });
-      await addCell(docIdRef.current.id, type, cellId);
-      setToast(`Added ${type[0].toUpperCase() + type.slice(1)} Cell`);
-      await setOrder(docIdRef.current.id, order2);
+    } else {
+      insertCellAfter(prevCellId, type, cellId);
     }
   };
 

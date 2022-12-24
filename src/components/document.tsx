@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
 import { editCells } from '../api';
+import {
+  TOAST_DOCUMENT_CHANGED,
+  TOAST_DOCUMENT_CHANGED_FAIL,
+} from '../constants';
 import { useActions, useTypedSelector } from '../hooks';
-import { getChangedCells } from '../utils';
+import { getChangedCells, setToast } from '../utils';
 import SaveButton from './save-button';
 
 interface IDocumentProps {
@@ -40,8 +44,13 @@ const Document: React.FC<IDocumentProps> = ({ children, docId, docName }) => {
       } = docInfo;
       const modifiedCells = getChangedCells(sData, data);
       if (modifiedCells.length > 0) {
-        await editCells(docId, modifiedCells);
-        addServiceData({ order, data });
+        const mResponse = await editCells(docId, modifiedCells);
+        if (mResponse.success) {
+          setToast(TOAST_DOCUMENT_CHANGED);
+          addServiceData({ order, data });
+        } else {
+          setToast(TOAST_DOCUMENT_CHANGED_FAIL);
+        }
       }
     }
   };

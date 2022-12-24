@@ -48,7 +48,7 @@ export const editDocument = asyncErrorHandler(async (req, res, next) => {
       success: false,
       cellId: cell.id,
       documentId: req.params.id,
-      message: `given cell id already exists for given document`,
+      message: `duplicate_cell_id`,
     });
   }
 });
@@ -111,19 +111,28 @@ export const getAllDocsByOwner = asyncErrorHandler(async (req, res, next) => {
 // @delete - delete a particular cell for given document ID
 export const deleteCellInDocument = asyncErrorHandler(
   async (req, res, next) => {
-    const { docData } = await Document.findOne({ docId: req.params.id });
-    const data = docData.data;
-    data.delete(req.params.cellId);
+    const document = await Document.findOne({ docId: req.params.id });
+    if (document) {
+      const {
+        docData: { data },
+      } = document;
+      data.delete(req.params.cellId);
 
-    await Document.updateOne(
-      { docId: req.params.id },
-      { $set: { 'docData.data': data } }
-    );
+      await Document.updateOne(
+        { docId: req.params.id },
+        { $set: { 'docData.data': data } }
+      );
 
-    res.status(201).json({
-      success: true,
-      message: `cell deleted successfully from ${req.params.id}`,
-    });
+      res.status(201).json({
+        success: true,
+        message: `cell deleted successfully from ${req.params.id}`,
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: `document_dont_exist`,
+      });
+    }
   }
 );
 
@@ -154,10 +163,23 @@ export const deleteCellsInDocument = asyncErrorHandler(
 // @patch - edit order array for given document Id
 export const setOrderInDocument = asyncErrorHandler(async (req, res, next) => {
   const { order } = req.body;
-  await Document.updateOne(
-    { docId: req.params.id },
-    { $set: { 'docData.order': order } }
-  );
+  const document = await Document.findOne({ docId: req.params.id });
+
+  if (document) {
+    await Document.updateOne(
+      { docId: req.params.id },
+      { $set: { 'docData.order': order } }
+    );
+    res.status(201).json({
+      success: true,
+      order: document.docData.order,
+    });
+  } else {
+    res.status(404).json({
+      success: false,
+      message: `document_dont_exist`,
+    });
+  }
 
   res.status(201).json({
     success: true,

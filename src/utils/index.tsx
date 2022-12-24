@@ -44,6 +44,7 @@ export const randomId = () => {
 export interface EditCells {
   cellId: string;
   content: string;
+  type?: string;
 }
 
 export const getChangedCells = (
