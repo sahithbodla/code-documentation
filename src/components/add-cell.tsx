@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import './add-cell.css';
 import { useActions, useTypedSelector } from '../hooks';
-import { randomId } from '../utils';
+import { randomId, setToast } from '../utils';
 import { CellTypes } from '../state';
 import { addCell, setOrder, getOrder } from '../api';
 
@@ -40,6 +40,7 @@ const AddCell: React.FC<AddCellProps> = ({
         data: { ...data, [cellId]: { id: cellId, type, content: '' } },
       });
       await addCell(docIdRef.current.id, type, cellId);
+      setToast(`Added ${type[0].toUpperCase() + type.slice(1)} Cell`);
       await setOrder(docIdRef.current.id, order2);
     }
   };
@@ -49,7 +50,7 @@ const AddCell: React.FC<AddCellProps> = ({
       <div className="add-buttons">
         <button
           className="button is-rounded is-primary is-small"
-          onClick={() => handleCellInsertion('code')}
+          onClick={(e) => handleCellInsertion('code')}
         >
           <span className="icon is-small">
             <i className="fas fa-plus"></i>
@@ -58,7 +59,7 @@ const AddCell: React.FC<AddCellProps> = ({
         </button>
         <button
           className="button is-rounded is-primary is-small"
-          onClick={() => handleCellInsertion('text')}
+          onClick={(e) => handleCellInsertion('text')}
         >
           <span className="icon is-small">
             <i className="fas fa-plus"></i>

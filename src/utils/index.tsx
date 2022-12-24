@@ -1,3 +1,4 @@
+import { toast, Slide } from 'react-toastify';
 import { Cell } from '../state';
 
 export interface GetSaveNewDocumentObj {
@@ -56,4 +57,18 @@ export const getChangedCells = (
     }
   });
   return arr;
+};
+
+export const setToast = (message: string) => {
+  toast.success(message, {
+    position: 'top-center',
+    autoClose: 2000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: 'dark',
+    transition: Slide,
+  });
 };

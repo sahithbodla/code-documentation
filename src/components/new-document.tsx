@@ -26,7 +26,7 @@ const NewDocument: React.FC<INewDocumentProps> = ({
   });
   useEffect(() => {
     setIsChanged(docInfo.order.length > 0);
-  }, [docInfo.order]);
+  }, [docInfo.order, setIsChanged]);
   const saveChanges = () => {
     document.getElementById('modal-js-example')?.classList.add('is-active');
   };

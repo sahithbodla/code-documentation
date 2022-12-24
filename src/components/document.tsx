@@ -19,6 +19,8 @@ const Document: React.FC<IDocumentProps> = ({ children, docId, docName }) => {
     };
   });
   const { addServiceData, setIsChanged } = useActions();
+  const a = JSON.stringify(docInfo.serviceData);
+  const b = JSON.stringify(docInfo.data);
 
   useEffect(() => {
     const {
@@ -26,9 +28,8 @@ const Document: React.FC<IDocumentProps> = ({ children, docId, docName }) => {
       data,
     } = docInfo;
     const modifiedCells = getChangedCells(sData, data);
-    console.log('1', sData, data);
     setIsChanged(modifiedCells.length > 0);
-  }, [JSON.stringify(docInfo.serviceData), JSON.stringify(docInfo.data)]);
+  }, [a, b, docInfo, setIsChanged]);
 
   const saveChanges = async () => {
     if (docId) {
@@ -38,7 +39,6 @@ const Document: React.FC<IDocumentProps> = ({ children, docId, docName }) => {
         order,
       } = docInfo;
       const modifiedCells = getChangedCells(sData, data);
-      console.log('2', sData, data);
       if (modifiedCells.length > 0) {
         await editCells(docId, modifiedCells);
         addServiceData({ order, data });

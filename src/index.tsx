@@ -3,10 +3,12 @@ import React, { Suspense, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 import { store } from './state';
 import ThemeProvider from './components/theme-provider';
 import { getTheme } from './api';
 import { tempUserGoodleId } from './constants';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App: React.FC = () => {
   const [theme, setTheme] = useState('');
@@ -24,6 +26,7 @@ const App: React.FC = () => {
       <Router>
         <Suspense>
           <ThemeProvider theme={theme} />
+          <ToastContainer />
         </Suspense>
       </Router>
     </Provider>

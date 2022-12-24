@@ -1,0 +1,33 @@
+@mixin toastify-style() {
+  .Toastify__toast-theme--dark {
+    color: $navbar-item-color;
+    background-color: $navbar-background-color;
+  }
+
+  .Toastify__toast-container {
+    width: auto;
+  }
+
+  .Toastify__toast-container--top-center {
+    top: 4rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .Toastify__toast-icon {
+    display: none !important;
+  }
+
+  .Toastify__toast-body div {
+    display: flex;
+    justify-content: center;
+  }
+
+  .Toastify__close-button {
+    display: none;
+  }
+
+  .Toastify__toast {
+    border-radius: 25px;
+  }
+}
