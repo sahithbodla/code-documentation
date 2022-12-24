@@ -11,6 +11,7 @@ interface CellsState {
   docId: string;
   docName: string;
   isChanged: boolean;
+  serviceData: { order: string[]; data: { [key: string]: Cell } };
 }
 
 const initialState: CellsState = {
@@ -21,6 +22,7 @@ const initialState: CellsState = {
   docId: '',
   docName: '',
   isChanged: false,
+  serviceData: { order: [], data: {} },
 };
 
 const reducer = produce(
@@ -77,6 +79,10 @@ const reducer = produce(
 
       case ActionType.IS_CHANGED:
         state.isChanged = action.payload;
+        return state;
+
+      case ActionType.ADD_SERVICE_DATA:
+        state.serviceData = action.payload;
         return state;
 
       default:

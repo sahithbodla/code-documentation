@@ -44,14 +44,14 @@ const Pagination: React.FC<IPaginationProps> = ({
   return (
     <nav className="pagination w-100" role="navigation" aria-label="pagination">
       <div
-        className="pagination-previous is-disabled"
+        className="pagination-previous is-disabled hover-pointer"
         title="This is the first page"
         onClick={previousPage}
       >
-        Previous
+        {'<<'}
       </div>
-      <div className="pagination-next" onClick={nextPage}>
-        Next page
+      <div className="pagination-next hover-pointer" onClick={nextPage}>
+        {'>>'}
       </div>
       <ul className="pagination-list">
         {pagesArray.map((pageNumber) => {
@@ -59,7 +59,7 @@ const Pagination: React.FC<IPaginationProps> = ({
             return (
               <li key={pageNumber}>
                 <div
-                  className="pagination-link is-current"
+                  className="pagination-link is-current hover-pointer"
                   aria-label={`Page ${pageNumber}`}
                   aria-current="page"
                   onClick={() => setCurrentPage(pageNumber)}
@@ -72,7 +72,7 @@ const Pagination: React.FC<IPaginationProps> = ({
             return (
               <li key={pageNumber}>
                 <div
-                  className="pagination-link"
+                  className="pagination-link hover-pointer"
                   onClick={() => setCurrentPage(pageNumber)}
                   aria-label={`Goto page ${pageNumber}`}
                 >

@@ -1,0 +1,4 @@
+@import 'bulmaswatch/solar/_variables.scss';
+@import './common.scss';
+
+@include toastify-style();

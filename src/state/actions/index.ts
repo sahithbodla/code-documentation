@@ -66,19 +66,31 @@ export interface DeleteBundle {
   type: ActionType.DELETE_BUNDLE;
   payload: string;
 }
+
 export interface InitialiseCellState {
   type: ActionType.INITIAL_CELL_STATE;
 }
+
 export interface InitialiseBundleState {
   type: ActionType.INITIAL_BUNDLE_STATE;
 }
+
 export interface SetTheme {
   type: ActionType.SET_THEME;
   payload: string;
 }
+
 export interface SetIsChanged {
   type: ActionType.IS_CHANGED;
   payload: boolean;
+}
+
+export interface AddServiceData {
+  type: ActionType.ADD_SERVICE_DATA;
+  payload: {
+    order: string[];
+    data: { [key: string]: Cell };
+  };
 }
 
 export type Action =
@@ -93,4 +105,5 @@ export type Action =
   | InitialiseCellState
   | InitialiseBundleState
   | SetTheme
-  | SetIsChanged;
+  | SetIsChanged
+  | AddServiceData;

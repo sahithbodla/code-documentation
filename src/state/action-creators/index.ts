@@ -12,6 +12,7 @@ import {
   InitialiseBundleState,
   SetTheme,
   SetIsChanged,
+  AddServiceData,
 } from '../actions';
 import { Cell, CellTypes } from '../cell';
 import bundle from '../../bundler';
@@ -119,4 +120,11 @@ export const setTheme = (payload: string): SetTheme => {
 
 export const setIsChanged = (payload: boolean): SetIsChanged => {
   return { type: ActionType.IS_CHANGED, payload };
+};
+
+export const addServiceData = (payload: {
+  order: string[];
+  data: { [key: string]: Cell };
+}): AddServiceData => {
+  return { type: ActionType.ADD_SERVICE_DATA, payload };
 };

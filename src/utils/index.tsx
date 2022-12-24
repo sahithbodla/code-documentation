@@ -1,3 +1,4 @@
+import { toast, Slide } from 'react-toastify';
 import { Cell } from '../state';
 
 export interface GetSaveNewDocumentObj {
@@ -43,6 +44,7 @@ export const randomId = () => {
 export interface EditCells {
   cellId: string;
   content: string;
+  type?: string;
 }
 
 export const getChangedCells = (
@@ -51,9 +53,23 @@ export const getChangedCells = (
 ): EditCells[] => {
   let arr: EditCells[] = [];
   Object.entries(newData).forEach((cell) => {
-    if (newData[cell[0]].content !== oldData[cell[0]].content) {
+    if (newData[cell[0]].content !== oldData[cell[0]]?.content || '') {
       arr.push({ cellId: cell[0], content: newData[cell[0]].content });
     }
   });
   return arr;
+};
+
+export const setToast = (message: string) => {
+  toast.success(message, {
+    position: 'top-center',
+    autoClose: 2000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: 'dark',
+    transition: Slide,
+  });
 };

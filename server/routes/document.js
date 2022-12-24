@@ -8,6 +8,7 @@ import {
   setOrderInDocument,
   setCellsContentInDocument,
   getOrder,
+  deleteCellsInDocument,
 } from '../controllers/document.js';
 import { isAuthenticated } from '../middlewares/auth.js';
 
@@ -24,4 +25,5 @@ router.get('/document/order/:id', getOrder);
 router.get('/documents/:id', getAllDocsByOwner);
 
 router.delete('/document/:id/:cellId', deleteCellInDocument);
+router.delete('/document/:id/', deleteCellsInDocument);
 export default router;
