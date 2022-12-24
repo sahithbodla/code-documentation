@@ -14,5 +14,5 @@ export const TOAST_DELETE = 'cell deleted successfully';
 export const TOAST_MOVE_FAIL = 'error while moving cells';
 export const TOAST_DOCUMENT_FAIL = 'Document creation failed, please retry';
 export const TOAST_DOCUMENT = 'Document created successfully';
-export const TOAST_DOCUMENT_CHANGED = 'changed saved successfully';
+export const TOAST_DOCUMENT_CHANGED = 'changes saved successfully';
 export const TOAST_DOCUMENT_CHANGED_FAIL = 'failed to save changes';
